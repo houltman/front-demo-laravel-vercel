@@ -15,14 +15,6 @@
     {
       "src": "public/css/app.css",
       "use": "@vercel/static"
-    },
-    {
-      "src": "public/js/app.js",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "public/images/*",
-      "use": "@vercel/static"
     }
   ],
   "env": {
