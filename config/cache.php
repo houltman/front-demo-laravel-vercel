@@ -52,6 +52,7 @@ return [
         'file' => [
             'driver' => 'file',
             'path' => env('CACHE_PATH', '/tmp'),
+            //'path' => env('CACHE_PATH', '/tmp'),
             //'path' => storage_path('framework/cache/data'),
         ],
 
