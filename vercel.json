@@ -6,7 +6,7 @@
       "api/*.php": {
       "runtime": "vercel-php@0.7.1"
       }
-      },
+    },
     "routes": [
       {
          "src": "/(.*)",
@@ -16,6 +16,6 @@
     "env": {
         "APP_ENV": "production",
         "APP_KEY": "base64:wVqsSUAFYgYd4zw6AegH5QyDcoTHE5CwjvDWmalWEqg="
-      }
+    }
   }
   
