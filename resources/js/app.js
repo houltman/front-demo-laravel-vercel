@@ -1,13 +1,5 @@
 import { createApp } from 'vue';
+import App from './App.vue';
+import router from './router';
 
-// Importa tu componente
-import ExampleComponent from './components/ExampleComponent.vue';
-
-// Crea la instancia de Vue
-const app = createApp({});
-
-// Registra el componente
-app.component('example-component', ExampleComponent);
-
-// Monta la aplicación
-app.mount('#app');
+createApp(App).use(router).mount('#app');
