@@ -17,6 +17,10 @@ export const login = async (credentials) => {
   return await api.post('/auth/signin', credentials);
 };
 
+export const register = async (payload) => {
+    return await api.post('/auth/signup', payload);
+  };
+
 export const logout = async () => {
   return await api.post('/logout');
 };
