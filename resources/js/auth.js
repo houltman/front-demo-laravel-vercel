@@ -1,26 +1,31 @@
-import axios from 'axios';
+import axios from "axios";
 
 const api = axios.create({
-  baseURL: 'http://localhost:3000/api/v1',
+    //baseURL: "http://localhost:3000/api/v1",
+    baseURL: "https://vercel-demo-one-plum.vercel.app/api/v1",
 });
 
 // Interceptor para añadir el token
 api.interceptors.request.use((config) => {
-    const token = localStorage.getItem('access_token');
+    const token = localStorage.getItem("access-token");
     if (token) {
-        config.headers['Authorization'] = `Bearer ${token}`;
+        config.headers["Authorization"] = `Bearer ${token}`;
     }
     return config;
 });
 
 export const login = async (credentials) => {
-  return await api.post('/auth/signin', credentials);
+    return await api.post("/auth/signin", credentials);
+};
+
+export const verify = async () => {
+    return await api.get("/auth/verify-token");
 };
 
 export const register = async (payload) => {
-    return await api.post('/auth/signup', payload);
-  };
+    return await api.post("/auth/signup", payload);
+};
 
 export const logout = async () => {
-  return await api.post('/logout');
+    return await api.post("/logout");
 };
