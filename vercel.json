@@ -2,6 +2,7 @@
   
   {
     "version": 2,
+    "framework": null,
     "functions": {
       "api/*.php": {
       "runtime": "vercel-php@0.7.1"
@@ -15,6 +16,7 @@
     ],
     "env": {
         "APP_ENV": "production",
+        "APP_URL": "https://front-demo-nu.vercel.app",
         "APP_KEY": "base64:wVqsSUAFYgYd4zw6AegH5QyDcoTHE5CwjvDWmalWEqg=",
         "APP_CONFIG_CACHE": "/tmp/config.php",
         "APP_EVENTS_CACHE": "/tmp/events.php",
