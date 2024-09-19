@@ -1,8 +1,8 @@
 import axios from "axios";
 
 const api = axios.create({
-    //baseURL: "http://localhost:3000/api/v1",
-    baseURL: "https://vercel-demo-one-plum.vercel.app/api/v1",
+    baseURL: "http://localhost:3000/api/v1",
+    //baseURL: "https://vercel-demo-one-plum.vercel.app/api/v1",
 });
 
 // Interceptor para añadir el token
@@ -15,7 +15,7 @@ api.interceptors.request.use((config) => {
 });
 
 export const login = async (credentials) => {
-    return await api.post("/auth/signin", credentials);
+    return await api.post("/auth/login", credentials);
 };
 
 export const verify = async () => {
@@ -23,7 +23,7 @@ export const verify = async () => {
 };
 
 export const register = async (payload) => {
-    return await api.post("/auth/signup", payload);
+    return await api.post("/auth/register", payload);
 };
 
 export const logout = async () => {

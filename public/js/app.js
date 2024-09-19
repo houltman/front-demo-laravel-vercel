@@ -22200,12 +22200,7 @@ __webpack_require__.r(__webpack_exports__);
   setup: function setup() {
     var showModal = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(false);
     var router = (0,vue_router__WEBPACK_IMPORTED_MODULE_2__.useRouter)();
-    var confirmLogout = function confirmLogout() {
-      // Eliminar el access-token de localStorage
-      localStorage.removeItem('access-token');
-      // Redirigir al login
-      router.push('/'); // Asegúrate de que la ruta de login sea correcta
-    };
+    var confirmLogout = function confirmLogout() {};
     return {
       showModal: showModal,
       confirmLogout: confirmLogout
@@ -22491,14 +22486,9 @@ __webpack_require__.r(__webpack_exports__);
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_Navbar = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Navbar");
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Navbar), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Navbar), _cache[0] || (_cache[0] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
     "class": "text-2xl font-bold"
-  }, "Bienvenido al Dashboard", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[0] || (_cache[0] = function ($event) {
-      return $setup.showModal = true;
-    }),
-    "class": "mt-4 px-4 py-2 bg-red-600 text-white rounded"
-  }, " Cerrar Sesión ")])], 64 /* STABLE_FRAGMENT */);
+  }, "Bienvenido al Dashboard")], -1 /* HOISTED */))], 64 /* STABLE_FRAGMENT */);
 }
 
 /***/ }),
@@ -22612,7 +22602,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
     type: "password",
     "class": "block w-full mt-1 border-gray-200 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500"
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.password]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("\n                <div class=\"flex items-center justify-between mt-4\">\n                    <div>\n                        <label class=\"inline-flex items-center\">\n                            <input type=\"checkbox\"\n                                class=\"text-indigo-600 border-gray-200 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500\">\n                            <span class=\"mx-2 text-sm text-gray-600\">Remember me</span>\n                        </label>\n                    </div>\n\n                    <div>\n                        <a class=\"block text-sm text-indigo-700 fontme hover:underline\" href=\"#\">Forgot your\n                            password?</a>\n                    </div>\n                \n                </div>\n                "), _cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.password]])]), _cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "mt-6"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "submit",
@@ -22892,8 +22882,8 @@ function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.
 function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
 
 var api = axios__WEBPACK_IMPORTED_MODULE_0___default().create({
-  //baseURL: "http://localhost:3000/api/v1",
-  baseURL: "https://vercel-demo-one-plum.vercel.app/api/v1"
+  baseURL: "http://localhost:3000/api/v1"
+  //baseURL: "https://vercel-demo-one-plum.vercel.app/api/v1",
 });
 
 // Interceptor para añadir el token

@@ -3,10 +3,8 @@
   <Navbar />
   <div>
     <h1 class="text-2xl font-bold">Bienvenido al Dashboard</h1>
-    <button @click="showModal = true" class="mt-4 px-4 py-2 bg-red-600 text-white rounded">
-      Cerrar Sesión
-    </button>
   </div>
+
 </template>
 
 <script>
@@ -24,10 +22,7 @@ export default {
     const router = useRouter();
 
     const confirmLogout = () => {
-      // Eliminar el access-token de localStorage
-      localStorage.removeItem('access-token');
-      // Redirigir al login
-      router.push('/'); // Asegúrate de que la ruta de login sea correcta
+
     };
 
     return { showModal, confirmLogout };
