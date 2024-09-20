@@ -15,26 +15,30 @@
 			</div>
 
 			<form class="mt-4" @submit.prevent="handleRegister">
-				<label class="block">
+				<label class="block text-left">
 					<span class="text-sm text-gray-700">Nombre</span>
-					<input v-model="name" type="text"
-						class="block w-full mt-1 border-gray-200 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500">
 				</label>
+				<input v-model="name" type="text"
+					class="block w-full mt-1 border border-gray-300 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500 p-2"
+					placeholder="" />
 
-				<label class="block mt-3">
+				<label class="block text-left mt-3">
 					<span class="text-sm text-gray-700">Apellido</span>
-					<input v-model="lastname" type="text"
-						class="block w-full mt-1 border-gray-200 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500">
 				</label>
+				<input v-model="lastname" type="text"
+					class="block w-full mt-1 border border-gray-300 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500 p-2"
+					placeholder="" />
 
-				<label class="block mt-3">
+				<label class="block text-left mt-3">
 					<span class="text-sm text-gray-700">Email</span>
-					<input v-model="email" type="email"
-						class="block w-full mt-1 border-gray-200 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500">
 				</label>
+				<input v-model="email" type="email"
+					class="block w-full mt-1 border border-gray-300 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500 p-2"
+					placeholder="" />
 
-				<label class="block mt-3">
+				<label class="block text-left mt-3">
 					<span class="text-sm text-gray-700">Contraseña</span>
+					<!--
 					<div class="relative">
 						<input :type="showPassword ? 'text' : 'password'" v-model="password"
 							class="block w-full mt-1 border-gray-200 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500">
@@ -53,13 +57,18 @@
 							</svg>
 						</span>
 					</div>
+				-->
 				</label>
+				<input :type="showPassword ? 'text' : 'password'" v-model="password"
+					class="block w-full mt-1 border border-gray-300 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500 p-2"
+					placeholder="" />
 
-				<label class="block mt-3">
+				<label class="block text-left mt-3">
 					<span class="text-sm text-gray-700">Confirmar Contraseña</span>
-					<input :type="showPassword ? 'text' : 'password'" v-model="confirmPassword"
-						class="block w-full mt-1 border-gray-200 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500">
 				</label>
+				<input :type="showPassword ? 'text' : 'password'" v-model="confirmPassword"
+					class="block w-full mt-1 border border-gray-300 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500 p-2"
+					placeholder="" />
 
 				<div class="mt-6">
 					<button type="submit"
@@ -110,7 +119,7 @@ export default {
 			}
 
 			try {
-				const response = await register({ name: name.value, lastname: lastname.value, email: email.value, password: password.value, confirmPassword: confirmPassword.value });
+				const response = await register({ name: name.value, lastname: lastname.value, email: email.value, password: password.value, 'confirm-password': confirmPassword.value });
 				// Guardar el access-token en localStorage
 				localStorage.setItem('access-token', response.data.accessToken);
 				// Redirigir al dashboard

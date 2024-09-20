@@ -12,26 +12,29 @@
                         d="M201.694 387.105C231.686 417.098 280.312 417.098 310.305 387.105C325.301 372.109 332.8 352.456 332.8 332.8C332.8 313.144 325.301 293.491 310.305 278.495C295.309 263.498 288 256 275.2 230.4C256 243.2 243.201 320 243.201 345.6C201.694 345.6 179.2 332.8 179.2 332.8C179.2 352.456 186.698 372.109 201.694 387.105Z"
                         fill="white" />
                 </svg>
-                <span class="text-2xl font-semibold text-gray-700">Registro</span>
+                <span class="text-2xl font-semibold text-gray-700">Crear Token</span>
             </div>
             <form class="mt-4" @submit.prevent="handleCreateToken">
-                <label class="block">
+                <label class="block text-left">
                     <span class="text-sm text-gray-700">tokenName</span>
-                    <input v-model="tokenName" type="text"
-                        class="block w-full mt-1 border-gray-200 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500">
                 </label>
+                <input v-model="tokenName" type="text"
+                    class="block w-full mt-1 border border-gray-300 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500 p-2"
+                    placeholder="Ingresa el nombre del token" />
 
-                <label class="block mt-3">
+                <label class="block text-left mt-3">
                     <span class="text-sm text-gray-700">tokenSymbol</span>
-                    <input v-model="tokenSymbol" type="text"
-                        class="block w-full mt-1 border-gray-200 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500">
                 </label>
+                <input v-model="tokenSymbol" type="text"
+                    class="block w-full mt-1 border border-gray-300 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500 p-2"
+                    placeholder="Ingresa el simbolo para el token" />
 
-                <label class="block mt-3">
+                <label class="block text-left mt-3">
                     <span class="text-sm text-gray-700">initialSupply</span>
-                    <input v-model="initialSupply" type="text"
-                        class="block w-full mt-1 border-gray-200 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500">
                 </label>
+                <input v-model="initialSupply" type="text"
+                    class="block w-full mt-1 border border-gray-300 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500 p-2"
+                    placeholder="Ingresa el suministro inicial" />
 
                 <div class="mt-6">
                     <button type="submit"
@@ -66,10 +69,10 @@ export default {
         const router = useRouter();
 
         const handleCreateToken = async () => {
-           
+
             try {
                 const response = await createTokenHedera({ initialSupply: initialSupply.value, tokenSymbol: tokenSymbol.value, tokenName: tokenName.value });
-                
+
                 router.push('/dashboard');
 
                 await Swal.fire({
