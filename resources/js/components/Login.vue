@@ -15,17 +15,19 @@
             </div>
 
             <form class="mt-4" @submit.prevent="handleLogin">
-                <label class="block">
+                <label class="block text-left">
                     <span class="text-sm text-gray-700">Email</span>
-                    <input v-model="email" type="email"
-                        class="block w-full mt-1 border-gray-200 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500">
                 </label>
+                <input v-model="email" type="email"
+                    class="block w-full mt-1 border border-gray-300 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500 p-2"
+                    placeholder="Ingresa tu correo" />
 
-                <label class="block mt-3">
+                <label class="block mt-3 text-left">
                     <span class="text-sm text-gray-700">Password</span>
-                    <input v-model="password" type="password"
-                        class="block w-full mt-1 border-gray-200 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500">
                 </label>
+                <input v-model="password" type="password"
+                    class="block w-full mt-1 border border-gray-300 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500 p-2"
+                    placeholder="Ingresa tu  password" />
 
                 <div class="mt-6">
                     <button type="submit"
@@ -49,8 +51,8 @@
 
 <script>
 import { ref } from 'vue';
-import { login } from '../services/auth'; 
-import { useRouter } from 'vue-router'; 
+import { login } from '../services/auth';
+import { useRouter } from 'vue-router';
 export default {
     name: 'LoginComponent',
     setup() {

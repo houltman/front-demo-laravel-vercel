@@ -17,7 +17,7 @@
                         <span class="text-gray-900 cursor-pointer">{{ username }}</span>
                         <div v-if="dropdownOpen"
                             class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg">
-                            <a @click="showModal = true"
+                            <a @click="confirmLogout"
                                 class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Cerrar
                                 Sesión</a>
                         </div>
@@ -26,27 +26,13 @@
             </div>
         </div>
     </nav>
-    <!-- Modal de Confirmación -->
-    <div v-if="showModal" class="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
-        <div class="bg-white p-6 rounded shadow-lg">
-            <h2 class="text-lg font-semibold">Confirmación</h2>
-            <p>¿Deseas cerrar sesión?</p>
-            <div class="mt-4">
-                <button @click="logout" class="mr-2 px-4 py-2 bg-green-600 text-white rounded">
-                    Sí
-                </button>
-                <button @click="showModal = false" class="px-4 py-2 bg-gray-300 rounded">
-                    No
-                </button>
-            </div>
-        </div>
-    </div>
+
 </template>
 
 <script>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-
+import Swal from 'sweetalert2';
 export default {
     name: 'Navbar',
     setup() {
@@ -72,13 +58,26 @@ export default {
         }
 
         const logout = () => {
-            // Lógica para cerrar sesión
             localStorage.removeItem('access-token');
-            // Redirigir al login
             router.push('/');
         };
 
-        return { username, dropdownOpen, toggleDropdown, createToken, listToken, logout, closeModal };
+        const confirmLogout = async () => {
+            const result = await Swal.fire({
+                title: '¿Estás seguro?',
+                text: '¿Deseas cerrar sesión?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Sí',
+                cancelButtonText: 'No'
+            });
+
+            if (result.isConfirmed) {
+                logout();
+            }
+        };
+
+        return { username,confirmLogout, dropdownOpen, toggleDropdown, createToken, listToken, logout, closeModal };
     },
 };
 </script>

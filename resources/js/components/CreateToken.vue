@@ -39,12 +39,6 @@
                         Crear Token
                     </button>
                 </div>
-                <p class="mt-4">
-                    Ya tienes cuenta?,
-                    <router-link to="/login" class="text-blue-500 hover:underline">
-                        Iniciar Sesión
-                    </router-link>
-                </p>
                 <!-- Mostrar errores -->
                 <div v-if="error" class="mt-4 text-red-600">{{ error }}</div>
             </form>
