@@ -84,7 +84,7 @@
 
 <script>
 import { ref } from 'vue';
-import { register } from '../auth'; // Asegúrate de que esta función esté bien definida
+import { register } from '../services/auth'; // Asegúrate de que esta función esté bien definida
 import { useRouter } from 'vue-router'; // Importa useRouter
 
 export default {

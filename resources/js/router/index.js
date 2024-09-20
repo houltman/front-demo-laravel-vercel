@@ -3,7 +3,8 @@ import Home from "../components/Home.vue";
 import Login from "../components/Login.vue";
 import Register from "../components/Register.vue";
 import Dashboard from "../components/Dashboard.vue";
-import { verify } from "../auth";
+import CreateToken from "../components/CreateToken.vue"
+import { verify } from "../services/auth";
 const routes = [
     {
         path: "/",
@@ -24,6 +25,12 @@ const routes = [
         path: "/dashboard",
         name: "Dashboard",
         component: Dashboard,
+        meta: { requiresAuth: true },
+    },
+    {
+        path: "/dashboard/create-token",
+        name: "CreateToken",
+        component: CreateToken,
         meta: { requiresAuth: true },
     },
 ];

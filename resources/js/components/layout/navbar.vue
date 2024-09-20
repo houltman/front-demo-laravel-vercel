@@ -35,7 +35,7 @@
                 <button @click="logout" class="mr-2 px-4 py-2 bg-green-600 text-white rounded">
                     Sí
                 </button>
-                <button @click="close" class="px-4 py-2 bg-gray-300 rounded">
+                <button @click="showModal = false" class="px-4 py-2 bg-gray-300 rounded">
                     No
                 </button>
             </div>
@@ -43,7 +43,6 @@
     </div>
 </template>
 
-Script
 <script>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
@@ -51,24 +50,26 @@ import { useRouter } from 'vue-router';
 export default {
     name: 'Navbar',
     setup() {
+        const showModal = ref(false); 
         const username = ref('Usuario');
         const dropdownOpen = ref(false);
-        const showModal = ref(false);
         const router = useRouter();
 
         const toggleDropdown = () => {
             dropdownOpen.value = !dropdownOpen.value;
         };
 
-        const createToken = () => {
-            // Lógica para crear token
-            console.log('Crear Token');
+        const createToken = async () => {
+            await router.push('/dashboard/create-token');
         };
 
-        const listToken = () => {
-            // Lógica para listar tokens
-            console.log('Listar Token');
+        const listToken = async () => {
+            await router.push('/dashboard');
         };
+
+        const closeModal = () => {
+            showModal.value = false; 
+        }
 
         const logout = () => {
             // Lógica para cerrar sesión
@@ -77,7 +78,7 @@ export default {
             router.push('/');
         };
 
-        return { username, dropdownOpen, toggleDropdown, createToken, listToken, logout };
+        return { username, dropdownOpen, toggleDropdown, createToken, listToken, logout, closeModal };
     },
 };
 </script>

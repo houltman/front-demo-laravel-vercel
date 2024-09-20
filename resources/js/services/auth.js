@@ -1,8 +1,8 @@
 import axios from "axios";
 
 const api = axios.create({
-    baseURL: "http://localhost:3000/api/v1",
-    //baseURL: "https://vercel-demo-one-plum.vercel.app/api/v1",
+    //baseURL: "http://localhost:3000/api/v1",
+    baseURL: "https://vercel-demo-one-plum.vercel.app/api/v1",
 });
 
 // Interceptor para añadir el token
@@ -28,4 +28,12 @@ export const register = async (payload) => {
 
 export const logout = async () => {
     return await api.post("/logout");
+};
+
+export const listToken = async () => {
+    return await api.get("/auth/list-token");
+};
+
+export const createTokenHedera = async (payload) => {
+    return await api.post("/auth/create-token-hedera",payload);
 };

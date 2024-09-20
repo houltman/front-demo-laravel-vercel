@@ -1,4 +1,5 @@
 <template>
+    <Navbar />
     <div class="flex items-center justify-center h-screen px-6 bg-gray-200">
         <div class="w-full max-w-sm p-6 bg-white rounded-md shadow-md">
             <div class="flex items-center justify-center">
@@ -11,35 +12,39 @@
                         d="M201.694 387.105C231.686 417.098 280.312 417.098 310.305 387.105C325.301 372.109 332.8 352.456 332.8 332.8C332.8 313.144 325.301 293.491 310.305 278.495C295.309 263.498 288 256 275.2 230.4C256 243.2 243.201 320 243.201 345.6C201.694 345.6 179.2 332.8 179.2 332.8C179.2 352.456 186.698 372.109 201.694 387.105Z"
                         fill="white" />
                 </svg>
-                <span class="text-2xl font-semibold text-gray-700">Dashboard</span>
+                <span class="text-2xl font-semibold text-gray-700">Registro</span>
             </div>
-
-            <form class="mt-4" @submit.prevent="handleLogin">
+            <form class="mt-4" @submit.prevent="handleCreateToken">
                 <label class="block">
-                    <span class="text-sm text-gray-700">Email</span>
-                    <input v-model="email" type="email"
+                    <span class="text-sm text-gray-700">tokenName</span>
+                    <input v-model="tokenName" type="text"
                         class="block w-full mt-1 border-gray-200 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500">
                 </label>
 
                 <label class="block mt-3">
-                    <span class="text-sm text-gray-700">Password</span>
-                    <input v-model="password" type="password"
+                    <span class="text-sm text-gray-700">tokenSymbol</span>
+                    <input v-model="tokenSymbol" type="text"
+                        class="block w-full mt-1 border-gray-200 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500">
+                </label>
+
+                <label class="block mt-3">
+                    <span class="text-sm text-gray-700">initialSupply</span>
+                    <input v-model="initialSupply" type="text"
                         class="block w-full mt-1 border-gray-200 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500">
                 </label>
 
                 <div class="mt-6">
                     <button type="submit"
                         class="w-full px-4 py-2 text-sm text-center text-white bg-indigo-600 rounded-md focus:outline-none hover:bg-indigo-500">
-                        Iniciar Sesión
+                        Crear Token
                     </button>
                 </div>
                 <p class="mt-4">
-                    No tengo cuenta,
-                    <router-link to="/register" class="text-blue-500 hover:underline">
-                        registrarme
+                    Ya tienes cuenta?,
+                    <router-link to="/login" class="text-blue-500 hover:underline">
+                        Iniciar Sesión
                     </router-link>
                 </p>
-
                 <!-- Mostrar errores -->
                 <div v-if="error" class="mt-4 text-red-600">{{ error }}</div>
             </form>
@@ -47,31 +52,50 @@
     </div>
 </template>
 
+
 <script>
 import { ref } from 'vue';
-import { login } from '../services/auth'; 
-import { useRouter } from 'vue-router'; 
+import { createTokenHedera } from '../services/auth';
+import { useRouter } from 'vue-router';
+import Navbar from '../components/layout/navbar.vue';
+import Swal from 'sweetalert2';
 export default {
-    name: 'LoginComponent',
+    name: 'CreateToken',
+    components: {
+        Navbar,
+    },
     setup() {
-        const email = ref('');
-        const password = ref('');
+        const tokenName = ref('');
+        const tokenSymbol = ref('');
+        const initialSupply = ref('');
         const error = ref('');
         const router = useRouter();
 
-        const handleLogin = async () => {
+        const handleCreateToken = async () => {
+           
             try {
-                const response = await login({ email: email.value, password: password.value });
-                // Guardar el access-token en localStorage
-                localStorage.setItem('access-token', response.data.accessToken);
-                // Redirigir al dashboard
+                const response = await createTokenHedera({ initialSupply: initialSupply.value, tokenSymbol: tokenSymbol.value, tokenName: tokenName.value });
+                
                 router.push('/dashboard');
+
+                await Swal.fire({
+                    title: 'Éxito',
+                    text: 'Token creado con éxito.',
+                    icon: 'success',
+                    confirmButtonText: 'Aceptar'
+                });
+
             } catch (err) {
-                error.value = 'Login fallido. Verifica tus credenciales.';
+                Swal.fire({
+                    title: 'Error',
+                    text: 'Error al crear el token.',
+                    icon: 'error',
+                    confirmButtonText: 'Aceptar'
+                });
             }
         };
 
-        return { email, password, error, handleLogin };
+        return { initialSupply, tokenSymbol, tokenName, error, handleCreateToken };
     },
 };
 </script>
