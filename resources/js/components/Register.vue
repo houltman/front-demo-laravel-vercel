@@ -13,7 +13,6 @@
 				</svg>
 				<span class="text-2xl font-semibold text-gray-700">Registro</span>
 			</div>
-
 			<form class="mt-4" @submit.prevent="handleRegister">
 				<label class="block text-left">
 					<span class="text-sm text-gray-700">Nombre</span>
@@ -21,6 +20,7 @@
 				<input v-model="name" type="text"
 					class="block w-full mt-1 border border-gray-300 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500 p-2"
 					placeholder="" />
+				<div v-if="nameError" class="text-red-600 text-sm mt-1">{{ nameError }}</div>
 
 				<label class="block text-left mt-3">
 					<span class="text-sm text-gray-700">Apellido</span>
@@ -28,6 +28,7 @@
 				<input v-model="lastname" type="text"
 					class="block w-full mt-1 border border-gray-300 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500 p-2"
 					placeholder="" />
+				<div v-if="lastnameError" class="text-red-600 text-sm mt-1">{{ lastnameError }}</div>
 
 				<label class="block text-left mt-3">
 					<span class="text-sm text-gray-700">Email</span>
@@ -35,33 +36,15 @@
 				<input v-model="email" type="email"
 					class="block w-full mt-1 border border-gray-300 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500 p-2"
 					placeholder="" />
+				<div v-if="emailError" class="text-red-600 text-sm mt-1">{{ emailError }}</div>
 
 				<label class="block text-left mt-3">
 					<span class="text-sm text-gray-700">Contraseña</span>
-					<!--
-					<div class="relative">
-						<input :type="showPassword ? 'text' : 'password'" v-model="password"
-							class="block w-full mt-1 border-gray-200 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500">
-						<span @click="togglePassword"
-							class="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer">
-							<svg v-if="showPassword" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500"
-								viewBox="0 0 20 20" fill="currentColor">
-								<path
-									d="M10 3a7 7 0 00-7 7 7 7 0 0014 0 7 7 0 00-7-7zm0 12a5 5 0 110-10 5 5 0 010 10z" />
-							</svg>
-							<svg v-else xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500"
-								viewBox="0 0 20 20" fill="currentColor">
-								<path fill-rule="evenodd"
-									d="M10 3a7 7 0 00-7 7 7 7 0 0014 0 7 7 0 00-7-7zm0 12a5 5 0 110-10 5 5 0 010 10z"
-									clip-rule="evenodd" />
-							</svg>
-						</span>
-					</div>
-				-->
 				</label>
 				<input :type="showPassword ? 'text' : 'password'" v-model="password"
 					class="block w-full mt-1 border border-gray-300 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500 p-2"
 					placeholder="" />
+				<div v-if="passwordError" class="text-red-600 text-sm mt-1">{{ passwordError }}</div>
 
 				<label class="block text-left mt-3">
 					<span class="text-sm text-gray-700">Confirmar Contraseña</span>
@@ -69,11 +52,14 @@
 				<input :type="showPassword ? 'text' : 'password'" v-model="confirmPassword"
 					class="block w-full mt-1 border border-gray-300 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500 p-2"
 					placeholder="" />
+				<div v-if="confirmPassworError" class="text-red-600 text-sm mt-1">{{ confirmPassworError }}</div>
 
 				<div class="mt-6">
-					<button type="submit"
+					<button type="submit" :disabled="loading"
 						class="w-full px-4 py-2 text-sm text-center text-white bg-indigo-600 rounded-md focus:outline-none hover:bg-indigo-500">
-						Registrarse
+
+						<span v-if="loading">Cargando...</span>
+						<span v-else>Registrarse</span>
 					</button>
 				</div>
 				<p class="mt-4">
@@ -93,8 +79,8 @@
 
 <script>
 import { ref } from 'vue';
-import { register } from '../services/auth'; // Asegúrate de que esta función esté bien definida
-import { useRouter } from 'vue-router'; // Importa useRouter
+import { register } from '../services/auth';
+import { useRouter } from 'vue-router';
 
 export default {
 	name: 'RegisterComponent',
@@ -107,29 +93,94 @@ export default {
 		const showPassword = ref(false);
 		const error = ref('');
 		const router = useRouter();
+		const nameError = ref('');
+		const lastnameError = ref('');
+		const emailError = ref('');
+		const passwordError = ref('');
+		const confirmPassworError = ref('');
+		const loading = ref(false);
 
 		const togglePassword = () => {
 			showPassword.value = !showPassword.value;
 		};
+		// agregar en un archivo de utilidades
+		const validEmail = (email) => {
+			const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@(([^<>()[\]\.,;:\s@"]+\.)+[^<>()[\]\.,;:\s@"]{2,})$/i;
+			return re.test(email);
+		};
 
 		const handleRegister = async () => {
-			if (password.value !== confirmPassword.value) {
-				error.value = 'Las contraseñas no coinciden.';
-				return;
+			nameError.value = '';
+			lastnameError.value = '';
+			emailError.value = '';
+			passwordError.value = '';
+			confirmPassworError.value = '';
+			error.value = '';
+
+			if (!name.value) {
+				nameError.value = 'El nombre es requerido.';
 			}
 
-			try {
-				const response = await register({ name: name.value, lastname: lastname.value, email: email.value, password: password.value, 'confirm-password': confirmPassword.value });
-				// Guardar el access-token en localStorage
-				localStorage.setItem('access-token', response.data.accessToken);
-				// Redirigir al dashboard
-				router.push('/dashboard');
-			} catch (err) {
-				error.value = 'Registro fallido. Verifica tus datos.';
+			if (!lastname.value) {
+				lastnameError.value = 'El apellido es requerido.';
+			}
+
+			if (!email.value) {
+				emailError.value = 'El correo electrónico es requerido.';
+			} else if (!validEmail(email.value)) {
+				emailError.value = 'El correo electrónico no es válido.';
+			}
+
+			if (!password.value) {
+				passwordError.value = 'La contraseña es requerida.';
+			} else if (password.value.length < 8) {
+				passwordError.value = 'La contraseña debe tener al menos 6 caracteres.';
+			}
+
+			if (!confirmPassword.value) {
+				confirmPassworError.value = 'La confirmación de la contraseña es requerida.';
+			} else if (confirmPassword.value.length < 8) {
+				confirmPassworError.value = 'La confirmación de la contraseña debe tener al menos 6 caracteres.';
+			} else if (password.value !== confirmPassword.value) {
+				confirmPassworError.value = 'Las contraseñas no coinciden.';
+			}
+
+			if (!nameError.value && !lastnameError.value && !emailError.value && !passwordError.value && !confirmPassworError.value) {
+				loading.value = true;
+				try {
+					const response = await register({ name: name.value, lastname: lastname.value, email: email.value, password: password.value, 'confirm-password': confirmPassword.value });
+					// Guardar el access-token en localStorage
+					localStorage.setItem('access-token', response.data.accessToken);
+					// Redirigir al dashboard
+					router.push('/dashboard');
+				} catch (err) {
+					
+					error.value = err.response.data.message || 'Registro fallido. Por favor, intente nuevamente.';
+					//error.value = 'Registro fallido. Verifica tus datos.';
+				}
+				finally {
+					loading.value = false;
+				}
 			}
 		};
 
-		return { name, lastname, email, password, confirmPassword, showPassword, error, togglePassword, handleRegister };
+		return {
+			name,
+			lastname,
+			email,
+			password,
+			confirmPassword,
+			showPassword,
+			nameError,
+			lastnameError,
+			emailError,
+			passwordError,
+			confirmPassworError,
+			error,
+			togglePassword,
+			handleRegister,
+			loading,
+		};
 	},
 };
 </script>

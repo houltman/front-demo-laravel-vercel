@@ -31,9 +31,9 @@ export const logout = async () => {
 };
 
 export const listToken = async () => {
-    return await api.get("/auth/list-token");
+    return await api.get("/dashboard/list-token");
 };
 
 export const createTokenHedera = async (payload) => {
-    return await api.post("/auth/create-token-hedera",payload);
+    return await api.post("/dashboard/create-token-hedera",payload);
 };

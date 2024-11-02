@@ -21,6 +21,7 @@
                 <input v-model="email" type="email"
                     class="block w-full mt-1 border border-gray-300 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500 p-2"
                     placeholder="Ingresa tu correo" />
+                <div v-if="emailError" class="text-red-600 text-sm mt-1">{{ emailError }}</div>
 
                 <label class="block mt-3 text-left">
                     <span class="text-sm text-gray-700">Password</span>
@@ -28,11 +29,15 @@
                 <input v-model="password" type="password"
                     class="block w-full mt-1 border border-gray-300 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500 p-2"
                     placeholder="Ingresa tu  password" />
+                <div v-if="passwordError" class="text-red-600 text-sm mt-1">{{ passwordError }}</div>
+
 
                 <div class="mt-6">
-                    <button type="submit"
+                    <button type="submit" :disabled="loading"
                         class="w-full px-4 py-2 text-sm text-center text-white bg-indigo-600 rounded-md focus:outline-none hover:bg-indigo-500">
-                        Iniciar Sesión
+                        <span v-if="loading">Cargando...</span>
+                        <span v-else>Iniciar Sesión</span>
+
                     </button>
                 </div>
                 <p class="mt-4">
@@ -53,27 +58,75 @@
 import { ref } from 'vue';
 import { login } from '../services/auth';
 import { useRouter } from 'vue-router';
+import Swal from 'sweetalert2';
 export default {
     name: 'LoginComponent',
     setup() {
         const email = ref('');
         const password = ref('');
+        const emailError = ref('');
+        const passwordError = ref('');
         const error = ref('');
         const router = useRouter();
+        const loading = ref(false);
+
+        const validEmail = (email) => {
+            const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@(([^<>()[\]\.,;:\s@"]+\.)+[^<>()[\]\.,;:\s@"]{2,})$/i;
+            return re.test(email);
+        };
 
         const handleLogin = async () => {
-            try {
-                const response = await login({ email: email.value, password: password.value });
-                // Guardar el access-token en localStorage
-                localStorage.setItem('access-token', response.data.accessToken);
-                // Redirigir al dashboard
-                router.push('/dashboard');
-            } catch (err) {
-                error.value = 'Login fallido. Verifica tus credenciales.';
+            emailError.value = '';
+            passwordError.value = '';
+            error.value = '';
+
+            if (!email.value) {
+                emailError.value = 'El correo electrónico es requerido.';
+            } else if (!validEmail(email.value)) {
+                emailError.value = 'El correo electrónico no es válido.';
+            }
+
+            if (!password.value) {
+                passwordError.value = 'La contraseña es requerida.';
+            } else if (password.value.length < 8) {
+                passwordError.value = 'La contraseña debe tener al menos 6 caracteres.';
+            }
+
+            //window.location.href = 'http://localhost:8000/accounts/google/login/';
+            //http://localhost:8000/accounts/google/login/
+            if (!emailError.value && !passwordError.value) {
+                loading.value = true;
+                try {
+                    const response = await login({ email: email.value, password: password.value });
+                    // Guardar el access-token en localStorage
+                    localStorage.setItem('access-token', response.data.accessToken);
+                    localStorage.setItem('refresh-token', response.data.refreshToken);
+                    localStorage.setItem('user', JSON.stringify(response.data.user));
+                    // Redirigir al dashboard
+                    router.push('/dashboard');
+                } catch (err) {
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'Login fallido. Por favor Verifique sus credenciales.',
+                        icon: 'error',
+                        confirmButtonText: 'Aceptar'
+                    });
+                    error.value = 'Login fallido. Verifica tus credenciales.';
+                }
+                finally {
+                    loading.value = false;
+                }
+            } else {
+                Swal.fire({
+                    title: 'Error',
+                    text: 'Ingrese los datos correctamente',
+                    icon: 'error',
+                    confirmButtonText: 'Aceptar'
+                });
             }
         };
 
-        return { email, password, error, handleLogin };
+        return { email, password, emailError, passwordError, error, loading, handleLogin };
     },
 };
 </script>

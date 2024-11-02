@@ -37,7 +37,7 @@ export default {
 			try {
 				const response = await listToken();
 
-				console.log(response.data);
+				//console.log(response.data);
 				//await new Promise(resolve => setTimeout(resolve, 2000));
 				tokens.value = response.data.tokens;
 

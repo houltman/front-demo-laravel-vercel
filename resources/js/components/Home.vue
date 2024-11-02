@@ -36,13 +36,13 @@ h1 {
 button {
   margin-top: 20px;
   padding: 10px 20px;
-  background-color: #42b983; /* Color de fondo del botón */
-  color: white; /* Color del texto */
-  border: none; /* Sin borde */
-  border-radius: 5px; /* Bordes redondeados */
-  cursor: pointer; /* Cursor de mano al pasar el mouse */
+  background-color: #42b983; 
+  color: white; 
+  border: none; 
+  border-radius: 5px; 
+  cursor: pointer; 
 }
 button:hover {
-  background-color: #358a6e; /* Color de fondo al pasar el mouse */
+  background-color: #358a6e; 
 }
 </style>
